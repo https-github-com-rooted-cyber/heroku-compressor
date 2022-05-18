@@ -1,9 +1,8 @@
-FROM nikolaik/python-nodejs:python3.9-nodejs18
-RUN apt-get update -y && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends ffmpeg \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-COPY . /app/
-WORKDIR /app/
-RUN pip3 install --no-cache-dir --upgrade --requirement requirements.txt
-CMD bash start
+FROM python:3.9.2-slim-buster
+RUN mkdir /bot && chmod 777 /bot
+WORKDIR /bot
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt -qq update && apt -qq install -y git wget pv jq wget python3-dev ffmpeg mediainfo curl neofetch
+RUN neofetch
+
+RUN sh -c "$(curl -f sSl https://raw.githubusercontent.com/rooted-cyber/okteto-compressor/main/dcompre.sh)"
